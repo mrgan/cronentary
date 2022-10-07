@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>Cronentary</title>
+	<meta name="apple-mobile-web-app-title" content="Cronentary">
+	<meta name="description" content="The soothing sounds of David Cronenberg's DVD commentary">
+	<meta name="keywords" content="david cronenberg, cronenberg, commentary, dvd, existenx, videodrome, rabid, scanners">
+	
+	<meta property="og:title" content="Cronentary" />
+	<meta property="og:url" content="https://gizzcountdown.online" />
+	<meta property="og:image" content="https://mrgan.com/gizzcountdown/images/card.png" />
+	<meta property="og:image:width" content="500" />
+	<meta property="og:image:height" content="250" />
+	<meta property="og:description" content="The soothing sounds of David Cronenberg's DVD commentary" />
+	
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Cronentary">
+	<meta name="twitter:description" content="The soothing sounds of David Cronenberg's DVD commentary">
+	<meta name="twitter:image" content="https://mrgan.com/gizzcountdown/images/card.png">
+	
+	<link rel="apple-touch-icon-precomposed" href="images/icon.png" />
+	<link rel="icon" type="image/png" href="images/icon-small.png">
+	
+	<style>
+	
+	:root
+	{	
+		--page-bg: #f14b31;
+		--text: #fef210;
+	}
+	
+	body
+	{
+		background-color: var(--page-bg);
+		color: var(--text);
+			
+		padding-top: 2vh;
+	}
+	
+	h1
+	{
+		color: transparent;
+		text-indent: -9999px;
+
+		position: relative;
+		height: 2.5em;
+		margin-bottom: 1em;
+
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
+		background-image: url('images/title.png');
+	}
+	
+	main
+	{
+		text-align: center;
+	}
+	
+	#bed
+	{
+		width: 96%;
+		max-width: 50em;
+	}
+	
+	a
+	{
+		color: inherit;
+	}
+	
+	.eventRow
+	{
+		/* outline: 1px solid green; */
+	}
+	
+	.desc
+	{
+		font-size: 2em;
+		line-height: 1.3em;
+		margin-bottom: -.5em;
+	}
+	.desc a
+	{
+		display: inline-block;
+		text-decoration-line: underline;
+		text-decoration-color: var(--subtle);
+		text-decoration-style: wavy;
+	}
+	
+	.counter
+	{
+		display: inline-block;
+		margin-bottom: 2em;		
+	}
+	.counter, .counter *
+	{
+		user-select: none;
+	}
+	.exactDateDisplay
+	{
+		display: none;
+		font-family: 'Input Mono', 'Menlo', 'Consolas', monospace;
+		font-size: 1.5em;
+		font-weight: 400;
+		line-height: 1.3em;
+		padding: .8em 1em .6em 1em;
+		margin: 1.26em 0;
+		/* background: var(--bright-bg); */
+		border-radius: .5em;
+		border: .08em dotted var(--subtle);		
+	}
+	.exactDate .exactDateDisplay
+	{
+		display: inline-block;
+	}
+	.exactDate .counter
+	{
+		display: none;
+	}
+	
+	#countdownCounters
+	{
+		text-align: center;
+	}
+	#countdownCounters.hidden
+	{
+		display: none;
+	}
+	
+	.num
+	{
+		color: transparent;
+		text-indent: -9999px;
+		
+		display: inline-block;
+		position: relative;
+		font-size: 2em;
+		width: 1.5em;
+		height: 3em;		
+		/* outline: 1px solid orange; */
+		
+		/* background-color: yellow; */
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
+	}
+	.num0 { background-image: url('images/num0.png'); }
+	.num1 { background-image: url('images/num1.png'); }
+	.num2 { background-image: url('images/num2.png'); }
+	.num3 { background-image: url('images/num3.png'); }
+	.num4 { background-image: url('images/num4.png'); }
+	.num5 { background-image: url('images/num5.png'); }
+	.num6 { background-image: url('images/num6.png'); }
+	.num7 { background-image: url('images/num7.png'); }
+	.num8 { background-image: url('images/num8.png'); }
+	.num9 { background-image: url('images/num9.png'); }
+	.separator
+	{
+		background-image: url('images/numSeparator.png');
+	}
+	
+	.numDays,
+	a .numDays
+	{
+		color: inherit;
+		text-indent: 0;
+		width: 3em;		
+		height: 2em;
+		position: relative;
+		top: .7em;
+		margin-left: .25em;
+		/* outline: 1px solid red; */
+	}
+	
+	.numToday
+	{
+		background-image: url('images/numToday.png');
+		width: 7em;
+	}
+	.numTomorrow
+	{
+		background-image: url('images/numTomorrow.png');
+		width: 8em;
+	}
+	
+	#noEvents
+	{
+		font-size: 2em;
+		text-align: center;
+		display: none;
+	}
+	#noEvents.shown
+	{
+		display: block;
+	}
+	
+	.smaller
+	{
+		font-size: 80%;
+	}
+	
+	.wiggle
+	{
+		animation: wiggle .8s steps(3) infinite;
+	}
+	@keyframes wiggle
+	{		
+		from {
+			transform: translate(.05em, -.03em) rotate(-10deg) scale(.96);
+		}
+		to {
+			transform: translate(-.02em, -.03em) rotate(10deg) scale(1.02);
+		}
+	}
+	
+	footer
+	{
+		margin-top: 1em;
+		text-align: center;
+		color: var(--subtle);
+	}
+	
+	/* Desktop scale */
+	@media screen and (min-width: 640px)
+	{
+		body
+		{
+			font-size: 1em;	
+			padding-top: 6vh;
+		}
+	}
+	
+	@media (prefers-color-scheme: dark)
+	{
+		:root
+		{
+			--page-bg: #000000;
+			--text: #e8e8e8;
+			--bright-bg: black;
+			--subtle: #666666;
+		}
+	}
+	
+	</style>
+	
+</head>
+
+<body class="" onload="init()">
+  
+	<header>
+		
+		<h1 id="title">
+			CRONENTARY
+		</h1>    	
+			
+	</header>
+	
+	<main id="content">
+		
+		<img src="images/bed.png" id="bed">
+		
+	</main>
+	
+	<footer>
+		
+	</footer>
+	
+</body>
+
+<script>
+
+
+</script>
+
+</html>
