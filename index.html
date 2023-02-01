@@ -219,19 +219,19 @@
 		function loadClip()
 		{
 			audioElement.src = clips[c];
-			console.log("Loaded " + clips[0] + ", length " + audioElement.duration);
+			console.log("Loaded " + clips[c] + ", length " + audioElement.duration);
 		}
 		
 		function playClip()
 		{
 			audioElement.play();
-			console.log("Playing " + clips[0] + ", length " + audioElement.duration);	  
+			console.log("Playing " + clips[c] + ", length " + audioElement.duration);	  
 		}
 		
 		function pauseClip()
 		{
 			audioElement.pause();
-			console.log("Pausing " + clips[0] + ", length " + audioElement.duration);	  
+			console.log("Pausing " + clips[c] + ", length " + audioElement.duration);	  
 		}
 		
 		function playPause()
