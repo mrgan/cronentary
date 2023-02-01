@@ -10,8 +10,8 @@
 	<meta name="keywords" content="david cronenberg, cronenberg, commentary, dvd, existenx, videodrome, rabid, scanners">
 	
 	<meta property="og:title" content="Cronentary" />
-	<meta property="og:url" content="https://gizzcountdown.online" />
-	<meta property="og:image" content="https://mrgan.com/gizzcountdown/images/card.png" />
+	<!-- <meta property="og:url" content="https://" /> -->
+	<meta property="og:image" content="https://mrgan.github.io/cronentary/card.png" />
 	<meta property="og:image:width" content="500" />
 	<meta property="og:image:height" content="250" />
 	<meta property="og:description" content="The soothing sounds of David Cronenberg's DVD commentary" />
@@ -19,7 +19,7 @@
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="Cronentary">
 	<meta name="twitter:description" content="The soothing sounds of David Cronenberg's DVD commentary">
-	<meta name="twitter:image" content="https://mrgan.com/gizzcountdown/images/card.png">
+	<meta name="twitter:image" content="https://mrgan.github.io/cronentary/card.png">
 	
 	<link rel="apple-touch-icon-precomposed" href="images/icon.png" />
 	<link rel="icon" type="image/png" href="images/icon-small.png">
@@ -196,6 +196,8 @@
 				document.getElementById('btnPlay').classList.toggle('hidden');		
 				firstLoaded = true;				
 			}
+			
+			console.log("Clip ready. Length: " + audioElement.duration)
 		
 			if (autoplay)
 			{
@@ -219,19 +221,19 @@
 		function loadClip()
 		{
 			audioElement.src = clips[c];
-			console.log("Loaded " + clips[c] + ", length " + audioElement.duration);
+			console.log("Loaded " + clips[c]);
 		}
 		
 		function playClip()
 		{
 			audioElement.play();
-			console.log("Playing " + clips[c] + ", length " + audioElement.duration);	  
+			console.log("Playing " + clips[c]);	  
 		}
 		
 		function pauseClip()
 		{
 			audioElement.pause();
-			console.log("Pausing " + clips[c] + ", length " + audioElement.duration);	  
+			console.log("Pausing " + clips[c]);	  
 		}
 		
 		function playPause()
