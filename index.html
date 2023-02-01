@@ -175,6 +175,7 @@
 		
 		var c = 0;
 		var autoplay = false;
+		var firstLoaded = false;
 		
 		const clips = [
 			"clips/Crash clips_A1-0026.mp3",	
@@ -190,6 +191,12 @@
 		// Load 
 		audioElement.addEventListener("loadeddata", () =>
 		{
+			if (!firstLoaded)
+			{				
+				document.getElementById('btnPlay').classList.toggle('hidden');		
+				firstLoaded = true;				
+			}
+		
 			if (autoplay)
 			{
 				playClip();
@@ -199,7 +206,7 @@
 		// Clip finished
 		audioElement.addEventListener("ended", () =>
 		{
-			c++;			
+			c++;
 			if (c >= clips.length)
 			{
 				c = 0;
@@ -246,7 +253,7 @@
 		
 		function init()
 		{
-			loadClip();
+			loadClip();			
 		}
 		
 		
@@ -268,7 +275,7 @@
 		</header>
 		
 		<div id="controls">
-			<img id="btnPlay" class="control" src="images/play.png" onclick="playPause()">
+			<img id="btnPlay" class="control hidden" src="images/play.png" onclick="playPause()">
 			<img id="btnPause" class="control hidden" src="images/pause.png" onclick="playPause()">
 		</div>
 		
