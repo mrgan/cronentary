@@ -219,8 +219,9 @@
 
 		
 		function loadClip()
-		{
+		{			
 			audioElement.src = clips[c];
+			audioElement.load();
 			console.log("Loaded " + clips[c]);
 		}
 		
@@ -255,6 +256,7 @@
 		
 		function init()
 		{
+			console.log('Entered page.')
 			loadClip();			
 		}
 		
