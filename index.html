@@ -70,7 +70,7 @@
 		background-size: contain;
 		background-image: url('images/title.png');
 		
-		/* pointer-events: none; */
+		pointer-events: none;
 	}
 	
 	h2
@@ -308,7 +308,7 @@
 		
 		<header>
 			
-			<h1 id="title" onclick="nextClip()">
+			<h1 id="title">
 				CRONENTARY
 			</h1>
 			
@@ -317,7 +317,7 @@
 		</header>
 		
 		<div id="controls">
-			<img id="btnPlay" class="control hidden" src="images/play.png" onclick="playPause()">
+			<img id="btnPlay" class="control" src="images/play.png" onclick="playPause()">
 			<img id="btnPause" class="control hidden" src="images/pause.png" onclick="playPause()">
 		</div>
 		
@@ -383,23 +383,6 @@
 	
 	const audioElement = new Audio();
 	
-	// Load 
-	audioElement.addEventListener("canplaythrough", () =>
-	{
-		if (!firstLoaded)
-		{				
-			document.getElementById('btnPlay').classList.toggle('hidden');		
-			firstLoaded = true;				
-		}
-		
-		console.log("Clip ready. Length: " + audioElement.duration)
-	
-		if (autoplay)
-		{
-			playClip();
-		}
-	});
-	
 	// Clip finished
 	audioElement.addEventListener("ended", nextClip);
 	
@@ -411,23 +394,36 @@
 			c = 0;
 		}
 		console.log("Next up, " + clips[c])
-		loadClip();
+		loadClip(autoplay);
 	}
 
 	
-	function loadClip()
+	function loadClip(playImmediately)
 	{			
 		audioElement.src = clips[c];
 		audioElement.load();
 		console.log("Loaded " + clips[c]);
+		
+		if (playImmediately)
+		{
+			playClip();
+		}
 	}
 	
 	function playClip()
 	{
+		console.log("Entering play mode");
+
+		audioElement.play();
 		playing = true;
 		
-		audioElement.play();
-		console.log("Playing " + clips[c]);	  
+		if (!firstLoaded)
+		{				
+			document.getElementById('btnPlay').classList.toggle('hidden');
+			firstLoaded = true;				
+		}
+		
+		console.log("Playing " + c + ", " + clips[c]);	  
 		
 		document.getElementById('btnPlay').classList.add('hidden');			
 		document.getElementById('btnPause').classList.remove('hidden');
@@ -457,17 +453,19 @@
 	{
 		console.log('Attempting to play/pause');
 		
-		if (audioElement.paused)
+		if (!audioElement.paused)
 		{
-			// Play
-			playClip();
-			autoplay = true; // the first time the user clicks play, they opt into autoplay
+			// Pause
+			console.log("Will pause");
+			pauseClip();
+			autoplay = false;			
 		}
 		else
 		{
-			// Pause
-			pauseClip();	
-			autoplay = false;
+			// Play
+			console.log("Will play");
+			playClip();
+			autoplay = true; // the first time the user clicks play, they opt into autoplay			
 		}
 	}
 	
