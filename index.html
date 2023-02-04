@@ -24,6 +24,8 @@
 	<link rel="apple-touch-icon-precomposed" href="images/icon.png" />
 	<link rel="icon" type="image/png" href="images/icon-small.png">
 	
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	
 	<style>
 	
 	:root
@@ -38,15 +40,19 @@
 		:root
 		{
 			--page-bg: color(display-p3 0.945 0.294 0.192);
-		}		
+			--text: color(display-p3 1 0.95 0.063);
+		}
 	}
 	
 	body
 	{
 		background-color: var(--page-bg);
 		color: var(--text);
-			
-		padding-top: 2vh;
+	
+		font-family: 'Montserrat';
+		font-weight: 200;
+		font-size: 1em;
+		line-height: 1.5em;
 	}
 	
 	h1#title
@@ -57,14 +63,21 @@
 		position: relative;
 		height: 2.5em;
 		max-width: 80%;
-		margin: 1em auto 1em auto;
+		margin: 1em auto .25em auto;
 
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: contain;
 		background-image: url('images/title.png');
 		
-		pointer-events: none;
+		/* pointer-events: none; */
+	}
+	
+	h2
+	{
+		color: var(--text);
+		text-align: center;
+		margin: .5em 0 2em 0;
 	}
 	
 	main
@@ -133,10 +146,133 @@
 		color: var(--subtle);
 	}
 	
-	audio
+	#sleep
 	{
-		width: 60%;
-		margin: 2em auto 1em auto;		
+		width: 40%;
+		height: 4em;
+		max-width: 20em;
+		margin: 1em auto;
+		
+		position: relative;
+		
+		/* background-color: rgba(50,80,90,.3); */
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
+		background-image: url('images/sleep-track.png');
+	}
+		#sleep button
+		{
+			position: absolute;
+			-webkit-appearance: none;
+			
+			width: 3em;
+			height: 3em;
+			top: calc(50% - 1.5em);			
+			border: 0;
+			border-radius: 1.5em;
+			background: transparent;
+			/* outline: 1px solid white; */
+		}
+			
+		#sleep #sleepOff
+		{
+			left: 0;			
+		}
+		#sleep #sleep15
+		{
+			left: calc(25% - 1.5em);
+		}
+		#sleep #sleep30
+		{
+			left: calc(50% - 1.5em);
+		}
+		#sleep #sleep60
+		{
+			right: 0;
+		}
+		
+		#sleep button:active::after
+		{
+			content:'';
+			display: block;
+			width: 1.2em;
+			height: 1.2em;
+			border-radius: .6em;
+			background: var(--text);
+		}
+			#sleep #sleepOff::after
+			{
+				margin-left: -.1em;
+			}
+			#sleep #sleep15::after,
+			#sleep #sleep30::after
+			{
+				margin-left: .2em;
+			}
+			#sleep #sleep60::after
+			{
+				margin-left: .6em;
+			}
+		
+		#sleep::before
+		{
+			content:'';
+			display: block;
+			position: relative;
+			left: -2.75em;
+			top: .45em;
+			width: 2.5em;
+			height: 2.5em;			
+		
+			/* background-color: rgba(50,80,90,.3); */
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: contain;
+			background-image: url('images/sleep-zzz.png');
+			
+			pointer-events: none;
+		}
+		#sleep::after
+		{
+			content:'';
+			display: block;
+			width: 100%;
+			height: 2em;
+			margin: 1em auto 0 auto;
+
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: contain;
+			background-image: url('images/sleep-labels.png');
+			
+			pointer-events: none;
+		}
+		
+		#sleep #sleepProgress
+		{
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 100%;
+			background-color: var(--page-bg);
+			opacity: .5;
+			/* visibility: hidden; */
+		}
+	
+	#nightOverlay
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		
+		background: var(--night-overlay);
+		mix-blend-mode: hue;
+		
+		pointer-events: none;
+		z-index: 9999;
 	}
 	
 	/* Desktop scale */
@@ -157,118 +293,12 @@
 			--text: #e8e8e8;
 			--bright-bg: black;
 			--subtle: #666666;
+			
+			--night-overlay: #2a619e;
 		}
-		
-		
 	}
 	
 	</style>
-	
-	<script>
-		
-		function shuffle(array)
-		{
-			for (let i = array.length - 1; i > 0; i--)
-			{
-				const j = Math.floor(Math.random() * (i + 1));
-				[array[i], array[j]] = [array[j], array[i]];
-			}
-		}
-		
-		// Start
-		
-		var c = 0;
-		var autoplay = false;
-		var firstLoaded = false;
-		
-		const clips = [
-			"clips/Crash clips_A1-0026.mp3",	
-			"clips/Crash clips_A1-0035.mp3",	
-			"clips/Crash clips_A1-0040.mp3",	
-			"clips/Crash clips_A1-0043.mp3",	
-			"clips/Crash clips_A1-0077.mp3"	
-		];
-		shuffle(clips);
-		
-		const audioElement = new Audio();
-		
-		// Load 
-		audioElement.addEventListener("canplaythrough", () =>
-		{
-			if (!firstLoaded)
-			{				
-				document.getElementById('btnPlay').classList.toggle('hidden');		
-				firstLoaded = true;				
-			}
-			
-			console.log("Clip ready. Length: " + audioElement.duration)
-		
-			if (autoplay)
-			{
-				playClip();
-			}
-		});
-		
-		// Clip finished
-		audioElement.addEventListener("ended", () =>
-		{
-			c++;
-			if (c >= clips.length)
-			{
-				c = 0;
-			}
-			console.log("Next up, " + clips[c])
-			loadClip();
-		});
-
-		
-		function loadClip()
-		{			
-			audioElement.src = clips[c];
-			audioElement.load();
-			console.log("Loaded " + clips[c]);
-		}
-		
-		function playClip()
-		{
-			audioElement.play();
-			console.log("Playing " + clips[c]);	  
-		}
-		
-		function pauseClip()
-		{
-			audioElement.pause();
-			console.log("Pausing " + clips[c]);	  
-		}
-		
-		function playPause()
-		{
-			console.log('Attempting to play/pause');
-			
-			if (audioElement.paused)
-			{
-				playClip();
-				autoplay = true; // the first time the user clicks play, they opt into autoplay
-			}
-			else
-			{
-				pauseClip();	
-				autoplay = false;
-			}
-			document.getElementById('btnPlay').classList.toggle('hidden');			
-			document.getElementById('btnPause').classList.toggle('hidden');
-			document.getElementById('btnPause').classList.toggle('blobby');
-		}
-		
-		function init()
-		{
-			console.log('Entered page.')
-			loadClip();			
-		}
-		
-		
-		
-	</script>
 	
 </head>
 
@@ -278,9 +308,11 @@
 		
 		<header>
 			
-			<h1 id="title">
+			<h1 id="title" onclick="nextClip()">
 				CRONENTARY
-			</h1>    	
+			</h1>
+			
+			<h2>Bedtime musings from Papa Dave</h2>
 				
 		</header>
 		
@@ -291,17 +323,201 @@
 		
 		<img src="images/bed.png" id="bed">
 		
+		<div id="sleep">
+			<div id="sleepProgress" style="width: 100%"></div>
+			<button id="sleepOff" onclick="stopSleepTimer()"></button>
+			<button id="sleep15"  onclick="startSleepTimer(15)"></button>
+			<button id="sleep30"  onclick="startSleepTimer(30)"></button>
+			<button id="sleep60"  onclick="startSleepTimer(60)"></button>			
+		</div>
+		
 	</main>
 	
 	<footer>
 		
+		
+		
 	</footer>
+	
+	<div id="nightOverlay"></div>
 	
 </body>
 
 <script>
+	
+	// Start
+	
+	var c = 0;
+	var autoplay = false;
+	var firstLoaded = false;
+	var playing = false;
+	
+	var sleepTimerOn = false; // in ms
+	var sleepTimerLength = 0; // in ms
+	var sleepTimerMaxLength = 60 * 60 * 1000; // 60 mins max
+	var sleepTimerElapsed = 0; // in ms
+	
+	var tTick;
+	
+	// Elements
+	
+	const sleepProgress = document.getElementById('sleepProgress');
+	
+	function shuffle(array)
+	{
+		for (let i = array.length - 1; i > 0; i--)
+		{
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+	
+	const clips = [
+		"clips/Crash clips_A1-0026.mp3",	
+		"clips/Crash clips_A1-0035.mp3",	
+		"clips/Crash clips_A1-0040.mp3",	
+		"clips/Crash clips_A1-0043.mp3",	
+		"clips/Crash clips_A1-0077.mp3"	
+	];
+	shuffle(clips);
+	
+	const audioElement = new Audio();
+	
+	// Load 
+	audioElement.addEventListener("canplaythrough", () =>
+	{
+		if (!firstLoaded)
+		{				
+			document.getElementById('btnPlay').classList.toggle('hidden');		
+			firstLoaded = true;				
+		}
+		
+		console.log("Clip ready. Length: " + audioElement.duration)
+	
+		if (autoplay)
+		{
+			playClip();
+		}
+	});
+	
+	// Clip finished
+	audioElement.addEventListener("ended", nextClip);
+	
+	function nextClip()
+	{
+		c++;
+		if (c >= clips.length-1)
+		{
+			c = 0;
+		}
+		console.log("Next up, " + clips[c])
+		loadClip();
+	}
 
-
+	
+	function loadClip()
+	{			
+		audioElement.src = clips[c];
+		audioElement.load();
+		console.log("Loaded " + clips[c]);
+	}
+	
+	function playClip()
+	{
+		playing = true;
+		
+		audioElement.play();
+		console.log("Playing " + clips[c]);	  
+		
+		document.getElementById('btnPlay').classList.add('hidden');			
+		document.getElementById('btnPause').classList.remove('hidden');
+		document.getElementById('btnPause').classList.add('blobby');
+		
+		if (sleepTimerOn)
+		{
+			tTick = setInterval(tick, 1000); // update every 1 s
+		}
+	}
+	
+	function pauseClip()
+	{
+		playing = false;
+		
+		audioElement.pause();
+		console.log("Pausing " + clips[c]);	  
+		
+		document.getElementById('btnPlay').classList.remove('hidden');			
+		document.getElementById('btnPause').classList.add('hidden');
+		document.getElementById('btnPause').classList.remove('blobby');
+		
+		clearInterval(tTick);
+	}
+	
+	function playPause()
+	{
+		console.log('Attempting to play/pause');
+		
+		if (audioElement.paused)
+		{
+			// Play
+			playClip();
+			autoplay = true; // the first time the user clicks play, they opt into autoplay
+		}
+		else
+		{
+			// Pause
+			pauseClip();	
+			autoplay = false;
+		}
+	}
+	
+	function startSleepTimer(mins)
+	{
+		sleepTimerLength = mins * 60 * 1000;
+		sleepProgress.style.visibility = 'visible';
+		
+		tTick = setInterval(tick, 1000); // update every 1 s
+		tick(); // update right away
+	}
+	
+	function stopSleepTimer()
+	{		
+		sleepTimerOn = false;
+		clearInterval(tTick);
+		
+		sleepProgress.style.width = '100%';	// reset visually
+		
+		sleepTimerLength = 0;
+		sleepTimerElapsed = 0; 
+	}
+	
+	function tick()
+	{
+		if (playing)
+		{		
+			sleepTimerElapsed += 1000; // tick down one second	
+			// console.log("One second on the timer…");
+		}
+		
+		var timerLeft = sleepTimerLength - sleepTimerElapsed;
+		
+		if (timerLeft <= 0)
+		{
+			stopSleepTimer();
+		}			
+		
+		sleepProgress.style.width = 100 - ((timerLeft/sleepTimerMaxLength)*100) + '%';		
+		
+		// console.log("tick");
+	}
+	
+	function init()
+	{
+		loadClip();
+	}
+	
+	
+	
 </script>
 
 </html>
