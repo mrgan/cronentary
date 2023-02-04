@@ -263,6 +263,7 @@
 	#nightOverlay
 	{
 		position: absolute;
+		
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -437,7 +438,7 @@
 		
 		document.getElementById('btnPlay').classList.add('hidden');			
 		document.getElementById('btnPause').classList.remove('hidden');
-		document.getElementById('btnPause').classList.add('blobby');
+		// document.getElementById('btnPause').classList.add('blobby');
 		
 		if (sleepTimerOn)
 		{
@@ -454,7 +455,7 @@
 		
 		document.getElementById('btnPlay').classList.remove('hidden');			
 		document.getElementById('btnPause').classList.add('hidden');
-		document.getElementById('btnPause').classList.remove('blobby');
+		// document.getElementById('btnPause').classList.remove('blobby');
 		
 		clearInterval(tTick);
 	}
