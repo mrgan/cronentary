@@ -311,6 +311,8 @@
 	
 	</style>
 	
+	<script src="clips.js"></script>
+	
 </head>
 
 <body class="" onload="init()">
@@ -358,6 +360,8 @@
 	
 	// Start
 	
+	const clipsPath = 'clips/';
+	
 	var c = 0;
 	var autoplay = false;
 	var firstLoaded = false;
@@ -383,19 +387,14 @@
 		}
 	}
 	
-	const clips = [
-		"clips/Crash clips_A1-0026.mp3",	
-		"clips/Crash clips_A1-0035.mp3",	
-		"clips/Crash clips_A1-0040.mp3",	
-		"clips/Crash clips_A1-0043.mp3",	
-		"clips/Crash clips_A1-0077.mp3"	
-	];
-	shuffle(clips);
-	
 	const audioElement = new Audio();
 	
 	// Clip finished
 	audioElement.addEventListener("ended", nextClip);
+	
+	// If playback is stopped/started by the OS
+	audioElement.addEventListener("play", playHappened);
+	audioElement.addEventListener("pause", pauseHappened);
 	
 	function nextClip()
 	{
@@ -411,7 +410,7 @@
 	
 	function loadClip(playImmediately)
 	{			
-		audioElement.src = clips[c];
+		audioElement.src = clipsPath + clips[c];
 		audioElement.load();
 		console.log("Loaded " + clips[c]);
 		
@@ -421,11 +420,10 @@
 		}
 	}
 	
-	function playClip()
+	function playHappened()
 	{
 		console.log("Entering play mode");
-
-		audioElement.play();
+		
 		playing = true;
 		
 		if (!firstLoaded)
@@ -446,11 +444,10 @@
 		}
 	}
 	
-	function pauseClip()
+	function pauseHappened()
 	{
 		playing = false;
 		
-		audioElement.pause();
 		console.log("Pausing " + clips[c]);	  
 		
 		document.getElementById('btnPlay').classList.remove('hidden');			
@@ -458,6 +455,18 @@
 		// document.getElementById('btnPause').classList.remove('blobby');
 		
 		clearInterval(tTick);
+	}
+	
+	function playClip()
+	{
+		playHappened();
+		audioElement.play();	
+	}
+	
+	function pauseClip()
+	{
+		pauseHappened();
+		audioElement.pause();
 	}
 	
 	function playPause()
@@ -522,6 +531,8 @@
 	
 	function init()
 	{
+		shuffle(clips);
+		
 		loadClip();
 	}
 	
