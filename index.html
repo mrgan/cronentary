@@ -61,7 +61,7 @@
 		position: relative;
 		height: 2.5em;
 		max-width: 80%;
-		margin: 1em auto 1.25em auto;
+		margin: 1em auto .25em auto;
 
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -69,13 +69,6 @@
 		background-image: url('images/title.png');
 		
 		pointer-events: none;
-	}
-	
-	h2
-	{
-		color: var(--text);
-		text-align: center;
-		margin: .5em 0 2em 0;
 	}
 	
 	main
@@ -140,7 +133,8 @@
 	#labelTitle
 	{
 		display: block;
-		margin-top: 1em;
+		height: 1.5em;
+		margin-bottom: .75em;
 		
 		font-size: 1.25em;
 		text-align: center;
@@ -333,16 +327,13 @@
 			<h1 id="title">
 				CRONENTARY
 			</h1>
+			<span id="labelTitle"></span>
 			
-			<!-- <h2>Bedtime musings from Papa Dave</h2> -->
-				
 		</header>
 		
-		<div id="controls">
+		<div id="controls">			
 			<img id="btnPlay" class="control" src="images/play.png" onclick="playPause()">
-			<img id="btnPause" class="control hidden" src="images/pause.png" onclick="playPause()">
-			
-			<span id="labelTitle"></span>
+			<img id="btnPause" class="control hidden" src="images/pause.png" onclick="playPause()">						
 		</div>
 		
 		<img src="images/bed.png" id="bed">
