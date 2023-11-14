@@ -445,11 +445,6 @@
 			currentTitle = 'Videodrome (1983)';
 		}
 		
-		if (currentTitle != '')
-		{
-			labelTitle.innerText = currentTitle;
-		}
-		
 		if (playImmediately)
 		{
 			playClip();
@@ -497,6 +492,10 @@
 	{
 		playHappened();
 		audioElement.play();	
+		if (currentTitle != '')
+		{
+			labelTitle.innerText = currentTitle;
+		}
 	}
 	
 	function pauseClip()
