@@ -50,7 +50,7 @@
 		color: var(--text);
 	
 		font-family: 'Montserrat';
-		font-weight: 200;
+		font-weight: 700;
 		font-size: 1em;
 		line-height: 1.5em;
 	}
@@ -138,6 +138,17 @@
 				70% { transform: scale(.94, 1.12);}
 				100% { transform: scale(1.07, .95);}
 			}
+	
+	#labelTitle
+	{
+		display: block;
+		margin-top: 1em;
+		
+		font-size: 1.25em;
+		text-align: center;
+		
+		color: rgba(0,0,0,.4);
+	}
 	
 	footer
 	{
@@ -332,6 +343,8 @@
 		<div id="controls">
 			<img id="btnPlay" class="control" src="images/play.png" onclick="playPause()">
 			<img id="btnPause" class="control hidden" src="images/pause.png" onclick="playPause()">
+			
+			<span id="labelTitle"></span>
 		</div>
 		
 		<img src="images/bed.png" id="bed">
@@ -367,14 +380,22 @@
 	var firstLoaded = false;
 	var playing = false;
 	
+	
 	var sleepTimerOn = false; // in ms
 	var sleepTimerLength = 0; // in ms
 	var sleepTimerMaxLength = 60 * 60 * 1000; // 60 mins max
 	var sleepTimerElapsed = 0; // in ms
 	
+	var currentTitle = '';
+	
 	var tTick;
 	
 	// Elements
+	
+	const btnPlay = document.getElementById('btnPlay');
+	const btnPause = document.getElementById('btnPause');
+	
+	const labelTitle = document.getElementById('labelTitle');
 	
 	const sleepProgress = document.getElementById('sleepProgress');
 	
@@ -415,7 +436,30 @@
 	{			
 		audioElement.src = clipsPath + clips[c];
 		audioElement.load();
-		console.log("Loaded " + clips[c]);
+		console.log("Loaded " + clipsPath + clips[c]);
+		
+		// get name
+		if (clips[c].indexOf('crash') > -1)
+		{
+			currentTitle = 'Crash (1996)';
+		}
+		else if (clips[c].indexOf('The Fly') > -1)
+		{
+			currentTitle = 'The Fly (1986)';
+		}
+		else if (clips[c].indexOf('Rabid') > -1)
+		{
+			currentTitle = 'Rabid (1977)';
+		}
+		else if (clips[c].indexOf('VidDrome') > -1)
+		{
+			currentTitle = 'Videodrome (1983)';
+		}
+		
+		if (currentTitle != '')
+		{
+			labelTitle.innerText = currentTitle;
+		}
 		
 		if (playImmediately)
 		{
@@ -431,15 +475,15 @@
 		
 		if (!firstLoaded)
 		{				
-			document.getElementById('btnPlay').classList.toggle('hidden');
+			btnPlay.classList.toggle('hidden');
 			firstLoaded = true;				
 		}
 		
 		console.log("Playing " + c + ", " + clips[c]);	  
 		
-		document.getElementById('btnPlay').classList.add('hidden');			
-		document.getElementById('btnPause').classList.remove('hidden');
-		// document.getElementById('btnPause').classList.add('blobby');
+		btnPlay.classList.add('hidden');			
+		btnPause.classList.remove('hidden');
+		// btnPause.classList.add('blobby');
 		
 		if (sleepTimerOn)
 		{
@@ -453,9 +497,9 @@
 		
 		console.log("Pausing " + clips[c]);	  
 		
-		document.getElementById('btnPlay').classList.remove('hidden');			
-		document.getElementById('btnPause').classList.add('hidden');
-		// document.getElementById('btnPause').classList.remove('blobby');
+		btnPlay.classList.remove('hidden');			
+		btnPause.classList.add('hidden');
+		// btnPause.classList.remove('blobby');
 		
 		clearInterval(tTick);
 	}
